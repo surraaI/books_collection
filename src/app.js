@@ -11,11 +11,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); 
 
 
-app.use('/api', booksRoutes); 
-
-app.get('/', (req, res) => {
-  res.status(200).send('Welcome to the Books Collection API!');
-});
+app.use('/', booksRoutes); 
 
 
 app.use((req, res, next) => {

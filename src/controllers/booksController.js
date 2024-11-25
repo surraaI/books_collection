@@ -6,7 +6,7 @@ const getAllBooks = async (req, res) => {
     res.status(200).json({ success: true, data: books });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: 'Server error' });
+    res.status(500).json({ success: false, message: `Server error: ${error}` });
   }
 };
 
@@ -20,7 +20,7 @@ const getBookById = async (req, res) => {
     res.status(200).json({ success: true, data: book });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: 'Server error' });
+    res.status(500).json({ success: false, message: `Server error: ${error}` });
   }
 };
 
@@ -34,7 +34,7 @@ const addBook = async (req, res) => {
     res.status(201).json({ success: true, data: newBook });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: 'Server error' });
+    res.status(500).json({ success: false, message: `Server error: ${error}` });
   }
 };
 
@@ -53,7 +53,7 @@ const updateBook = async (req, res) => {
     res.status(200).json({ success: true, data: updatedBook });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: 'Server error' });
+    res.status(500).json({ success: false, message: `Server error: ${error}` });
   }
 };
 
@@ -64,26 +64,26 @@ const deleteBook = async (req, res) => {
     if (!book) {
       return res.status(404).json({ success: false, message: 'Book not found' });
     }
-    await BookModel.delete(id);
+    await BookModel.deleteById(id);
     res.status(200).json({ success: true, message: 'Book deleted successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: 'Server error' });
+    res.status(500).json({ success: false, message: `Server error: ${error}` });
   }
 };
 
 const getRecommendations = async (req, res) => {
   try {
-    const books = await BookModel.getAll();
-    if (books.length === 0) {
-      return res.status(404).json({ success: false, message: 'No books available' });
-    }
-    const randomBook = books[Math.floor(Math.random() * books.length)];
-    res.status(200).json({ success: true, data: randomBook });
-  } catch (error) {
+    const response = await BookModel.getAll();
+    const randomIndex = Math.floor(Math.random() * response.length);
+    const randomBook = response[randomIndex];
+    return res.status(200).json({ success: true, data: randomBook });}
+  catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: 'Server error' });
+    res.status(500).json({ success: false, message: `Server error: ${error}` });
   }
+    
+    
 };
 
 module.exports = {

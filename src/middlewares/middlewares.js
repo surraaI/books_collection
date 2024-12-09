@@ -25,12 +25,10 @@ const authorizeRole = (requiredRole) => (req, res, next) => {
         });
     }
     token = authHeader.split(" ")[1];
-    console.log('token:', token);
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'dfafjaiqepfjpoadjsfjap');
 
         role = decoded.role;
-        console.log('role:', role);
 
         if (role !== requiredRole) {
             return res.status(403).json({
